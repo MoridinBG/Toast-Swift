@@ -274,7 +274,7 @@ public extension UIView {
     public func makeToastActivity(_ position: ToastPosition) {
         // sanity
         if let toast = objc_getAssociatedObject(self, &ToastKeys.ActivityView) as? UIView {
-            toast.superview?.bringSubviewToFront(toast)
+            toast.superview?.bringSubview(toFront: toast)
             return
         }
         
@@ -298,7 +298,7 @@ public extension UIView {
     public func makeToastActivity(_ position: CGPoint) {
         // sanity
         if let toast = objc_getAssociatedObject(self, &ToastKeys.ActivityView) as? UIView {
-            toast.superview?.bringSubviewToFront(toast)
+            toast.superview?.bringSubview(toFront: toast)
             return
         }
         
