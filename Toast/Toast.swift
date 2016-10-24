@@ -349,12 +349,33 @@ public extension UIView {
             activityView.layer.shadowRadius = style.shadowRadius
             activityView.layer.shadowOffset = style.shadowOffset
         }
-        
-        let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
-        activityIndicatorView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
-        activityView.addSubview(activityIndicatorView)
-        activityIndicatorView.startAnimating()
-        
+
+		if let image = style.avtivityImage {
+			activityView.backgroundColor = style.activityBackgroundColor
+
+			let activitiViewMaxSide = max(style.activitySize.width, style.activitySize.height) * 0.9
+			let imageSide = sqrt(pow(activitiViewMaxSide, 2) / 2)
+
+			let imageView = UIImageView(image: image)
+			imageView.contentMode = .scaleAspectFit
+			imageView.frame.size = CGSize(width: imageSide, height: imageSide)
+			imageView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
+
+			let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+			rotateAnimation.fromValue = 0.0
+			rotateAnimation.toValue = CGFloat(M_PI * 2.0)
+			rotateAnimation.duration = 2
+			rotateAnimation.repeatCount = Float.infinity
+			imageView.layer.add(rotateAnimation, forKey: nil)
+
+			activityView.addSubview(imageView)
+		} else {
+			let activityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .whiteLarge)
+			activityIndicatorView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
+			activityView.addSubview(activityIndicatorView)
+			activityIndicatorView.startAnimating()
+		}
+
         return activityView
     }
     
@@ -594,7 +615,12 @@ public struct ToastStyle {
      The background color. Default is `UIColor.blackColor()` at 80% opacity.
     */
     public var backgroundColor = UIColor.black.withAlphaComponent(0.8)
-    
+
+	/**
+	The activity background color. Default is `UIColor.blackColor()` at 80% opacity.
+	*/
+	public var activityBackgroundColor = UIColor.black.withAlphaComponent(0.8)
+
     /**
      The title color. Default is `UIColor.whiteColor()`.
     */
@@ -726,7 +752,13 @@ public struct ToastStyle {
      Default is 100 x 100.
     */
     public var activitySize = CGSize(width: 100.0, height: 100.0)
-    
+
+	/**
+	 An image to use instead of an activity indicator.
+	 Default is nil.
+	*/
+	public var avtivityImage: UIImage? = nil
+
     /**
      The fade in/out animation duration. Default is 0.2.
      */
