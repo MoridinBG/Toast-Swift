@@ -350,13 +350,14 @@ public extension UIView {
             activityView.layer.shadowOffset = style.shadowOffset
         }
 
-		if let image = style.avtivityImage {
+		if let image = style.activityImage {
 			activityView.backgroundColor = style.activityBackgroundColor
 
 			let activitiViewMaxSide = max(style.activitySize.width, style.activitySize.height) * 0.9
 			let imageSide = sqrt(pow(activitiViewMaxSide, 2) / 2)
 
 			let imageView = UIImageView(image: image)
+			imageView.tintColor = style.activityImageTint
 			imageView.contentMode = .scaleAspectFit
 			imageView.frame.size = CGSize(width: imageSide, height: imageSide)
 			imageView.center = CGPoint(x: activityView.bounds.size.width / 2.0, y: activityView.bounds.size.height / 2.0)
@@ -757,7 +758,13 @@ public struct ToastStyle {
 	 An image to use instead of an activity indicator.
 	 Default is nil.
 	*/
-	public var avtivityImage: UIImage? = nil
+	public var activityImage: UIImage? = nil
+
+	/**
+	  Tint to apply to the activityImage.
+	  Default is white.
+	*/
+	public var activityImageTint: UIColor = .white
 
     /**
      The fade in/out animation duration. Default is 0.2.
