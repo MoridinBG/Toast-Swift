@@ -367,6 +367,7 @@ public extension UIView {
 			rotateAnimation.toValue = CGFloat(M_PI * 2.0)
 			rotateAnimation.duration = 2
 			rotateAnimation.repeatCount = Float.infinity
+            rotateAnimation.isRemovedOnCompletion = false
 			imageView.layer.add(rotateAnimation, forKey: nil)
 
 			activityView.addSubview(imageView)
